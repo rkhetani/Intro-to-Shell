@@ -1,4 +1,4 @@
-site_name: Introduction to ChIP-seq
+site_name: Introduction to shell
 pages:
     - Home: index.md
     - Lessons:
