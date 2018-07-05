@@ -1,0 +1,17 @@
+site_name: Introduction to ChIP-seq
+pages:
+    - Home: index.md
+    - Lessons:
+        - Introduction to the shell: 01_the_filesystem.md
+        - Searching and redirection in shell: 02_searching_files.md
+        - Introduction to the `vim` text editor: 03_vim.md
+        - Shell scripts and `for` loops: 04_loops_and_scripts.md
+        - Permissions and environment variable: 05_permissions_and_environment_variables.md
+theme: 
+    name: 'material'
+    custom_dir: custom_theme
+    palette:
+        primary: 'White'
+        accent: 'Light Green'
+    logo: 'images/dna-sequence-1600x800.jpg'
+extra_css: [extra.css]
