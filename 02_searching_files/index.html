@@ -1,0 +1,729 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+        <meta name="author" content=""">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-0.17.4, mkdocs-material-2.9.2">
+    
+    
+      
+        <title>"The Shell: Searching and Redirection"</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.ba0fd1a6.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.6079476c.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+      <link rel="stylesheet" href="../extra.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="white" data-md-color-accent="light-green">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#learning-objectives" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="Introduction to ChIP-seq" class="md-header-nav__button md-logo">
+          
+            <img src="../images/dna-sequence-1600x800.jpg" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Introduction to ChIP-seq
+              </span>
+              <span class="md-header-nav__topic">
+                Searching and redirection in shell
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <span class="md-nav__button md-logo">
+      
+        <img src="../images/dna-sequence-1600x800.jpg" width="48" height="48">
+      
+    </span>
+    Introduction to ChIP-seq
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Lessons
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Lessons
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../01_the_filesystem/" title="Introduction to the shell" class="md-nav__link">
+      Introduction to the shell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Searching and redirection in shell
+      </label>
+    
+    <a href="./" title="Searching and redirection in shell" class="md-nav__link md-nav__link--active">
+      Searching and redirection in shell
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#learning-objectives" title="Learning objectives" class="md-nav__link">
+    Learning objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#searching-files" title="Searching files" class="md-nav__link">
+    Searching files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redirection" title="Redirection" class="md-nav__link">
+    Redirection
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practice-with-searching-and-redirection-piping" title="Practice with searching and redirection (piping)" class="md-nav__link">
+    Practice with searching and redirection (piping)
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extracting-exon-features" title="Extracting exon features" class="md-nav__link">
+    Extracting exon features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subsetting-dataset-to-only-keep-genomic-coordinates" title="Subsetting dataset to only keep genomic coordinates" class="md-nav__link">
+    Subsetting dataset to only keep genomic coordinates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing-duplicate-exons" title="Removing duplicate exons" class="md-nav__link">
+    Removing duplicate exons
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#counting-the-total-number-of-exons" title="Counting the total number of exons" class="md-nav__link">
+    Counting the total number of exons
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../03_vim/" title="Introduction to the `vim` text editor" class="md-nav__link">
+      Introduction to the `vim` text editor
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../04_loops_and_scripts/" title="Shell scripts and `for` loops" class="md-nav__link">
+      Shell scripts and `for` loops
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../05_permissions_and_environment_variables/" title="Permissions and environment variable" class="md-nav__link">
+      Permissions and environment variable
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#learning-objectives" title="Learning objectives" class="md-nav__link">
+    Learning objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#searching-files" title="Searching files" class="md-nav__link">
+    Searching files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redirection" title="Redirection" class="md-nav__link">
+    Redirection
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practice-with-searching-and-redirection-piping" title="Practice with searching and redirection (piping)" class="md-nav__link">
+    Practice with searching and redirection (piping)
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extracting-exon-features" title="Extracting exon features" class="md-nav__link">
+    Extracting exon features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subsetting-dataset-to-only-keep-genomic-coordinates" title="Subsetting dataset to only keep genomic coordinates" class="md-nav__link">
+    Subsetting dataset to only keep genomic coordinates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing-duplicate-exons" title="Removing duplicate exons" class="md-nav__link">
+    Removing duplicate exons
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#counting-the-total-number-of-exons" title="Counting the total number of exons" class="md-nav__link">
+    Counting the total number of exons
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Searching and redirection in shell</h1>
+                
+                <p>Approximate time: 60 minutes</p>
+<h2 id="learning-objectives">Learning objectives</h2>
+<ul>
+<li>Learn how to search for characters or patterns in a text file using the <code>grep</code> command</li>
+<li>Learn how to write to file and append to file using output redirection</li>
+<li>Explore how to use the pipe (<code>|</code>) character to chain together commands</li>
+</ul>
+<h2 id="searching-files">Searching files</h2>
+<p>We went over how to search within a file using <code>less</code>. We can also
+search within files without even opening them, using <code>grep</code>. Grep is a command-line
+utility for searching plain-text data sets for lines matching a pattern or regular expression (regex).
+Let's give it a try!</p>
+<p>We are going to practice searching with <code>grep</code> using our FASTQ files, which contain the sequencing reads (nucleotide sequences) output from a sequencing facility. Each sequencing read in a FASTQ file is associated with four lines of output, with the first line (header line) always starting with an <code>@</code> symbol. A whole fastq record for a single read should appear similar to the following:</p>
+<pre><code>@HWI-ST330:304:H045HADXX:1:1101:1111:61397
+CACTTGTAAGGGCAGGCCCCCTTCACCCTCCCGCTCCTGGGGGANNNNNNNNNNANNNCGAGGCCCTGGGGTAGAGGGNNNNNNNNNNNNNNGATCTTGG
++
+@?@DDDDDDHHH?GH:?FCBGGB@C?DBEGIIIIAEF;FCGGI#########################################################
+</code></pre>
+<p>Suppose we want to see how many reads in our file <code>Mov10_oe_1.subset.fq</code> are "bad", with 10 consecutive Ns (<code>NNNNNNNNNN</code>).</p>
+<pre><code class="bash">$ cd ~/unix_lesson/raw_fastq
+
+$ grep NNNNNNNNNN Mov10_oe_1.subset.fq
+</code></pre>
+
+<p>We get back a lot of lines.  What if we want to see the whole fastq record for each of these reads? </p>
+<p>We can use the <code>-B</code> and <code>-A</code> arguments for grep to return the matched line plus one before (<code>-B1</code>) and two lines after (<code>-A2</code>). Since each record is four lines and the second line is the sequence, this should return the whole record.</p>
+<pre><code class="bash">$ grep -B 1 -A 2 NNNNNNNNNN Mov10_oe_1.subset.fq
+</code></pre>
+
+<pre><code>@HWI-ST330:304:H045HADXX:1:1101:1111:61397
+CACTTGTAAGGGCAGGCCCCCTTCACCCTCCCGCTCCTGGGGGANNNNNNNNNNANNNCGAGGCCCTGGGGTAGAGGGNNNNNNNNNNNNNNGATCTTGG
++
+@?@DDDDDDHHH?GH:?FCBGGB@C?DBEGIIIIAEF;FCGGI#########################################################
+--
+@HWI-ST330:304:H045HADXX:1:1101:1106:89824
+CACAAATCGGCTCAGGAGGCTTGTAGAAAAGCTCAGCTTGACANNNNNNNNNNNNNNNNNGNGNACGAAACNNNNGNNNNNNNNNNNNNNNNNNNGTTGG
++
+?@@DDDDDB1@?:E?;3A:1?9?E9?&lt;?DGCDGBBDBF@;8DF#########################################################
+</code></pre>
+
+<hr />
+<p><strong>Exercises</strong></p>
+<ol>
+<li>
+<p>Search for the sequence CTCAATGA in <code>Mov10_oe_1.subset.fq</code>.
+In addition to finding the sequence, have your search also return
+the name of the sequence.</p>
+</li>
+<li>
+<p>Search for that sequence in all Mov10 replicate fastq files.</p>
+</li>
+</ol>
+<hr />
+<h2 id="redirection">Redirection</h2>
+<p>We're excited we have all these sequences that we care about that we
+just got from the FASTQ files. That is a really important motif
+that is going to help us answer our important question. But all those
+sequences just went whizzing by with grep. How can we capture them?</p>
+<p>We can do that with something called "redirection". The idea is that
+we're redirecting the output from the terminal (all the stuff that went
+whizzing by) to something else. In this case, we want to print it
+to a file, so that we can look at it later.</p>
+<p><strong>The redirection command for writing something to file is <code>&gt;</code>.</strong></p>
+<p>Let's try it out and put all the sequences that contain 'NNNNNNNNNN'
+from all the files into another file called <code>bad_reads.txt</code>.</p>
+<pre><code class="bash">$ grep -B 1 -A 2 NNNNNNNNNN Mov10_oe_1.subset.fq &gt; bad_reads.txt
+</code></pre>
+
+<p>The prompt should sit there a little bit, and then it should look like nothing
+happened. But you should have a new file called <code>bad_reads.txt</code>. </p>
+<pre><code class="bash">$ ls -l
+</code></pre>
+
+<p>Take a look at the file and see if it contains what you think it should. <em>NOTE: If we already had a file named <code>bad_reads.txt</code> in our directory, it would have overwritten it without any warning.</em></p>
+<p><strong>The redirection command for appending something to an existing file is <code>&gt;&gt;</code>.</strong></p>
+<p>If we use <code>&gt;&gt;</code>, it will append to rather than overwrite a file.  This can be useful for saving more than one search, for example.</p>
+<pre><code class="bash">$ grep -B 1 -A 2 NNNNNNNNNN Mov10_oe_2.subset.fq &gt;&gt; bad_reads.txt
+
+$ ls -l
+</code></pre>
+
+<p>Since our <code>bad_reads.txt</code> file isn't a raw_fastq file, we should move it to a different location within our directory. We decide to move it to the <code>other</code> folder using the command <code>mv</code>. </p>
+<pre><code class="bash">$ mv bad_reads.txt ../other/
+</code></pre>
+
+<p>There's one more useful redirection command that we're going to show, and that's called the pipe command. </p>
+<p><strong>The redirection command for using the output of a command as input for a different command is <code>|</code>.</strong></p>
+<p>It's probably not a key on your keyboard you use very much. What <code>|</code> does is take the output that went scrolling by on the terminal and runs it through another command. When it was all whizzing by before, we wished we could just slow it down and look at it, like we can with <code>less</code>. Well it turns out that we can! We pipe the <code>grep</code> command to <code>less</code> or to <code>head</code> to just see the first few lines.</p>
+<pre><code class="bash">$ grep -B 1 -A 2 NNNNNNNNNN Mov10_oe_1.subset.fq | less
+</code></pre>
+
+<p>Now we can use the arrows to scroll up and down and use <code>q</code> to get out.</p>
+<p>We can also do count the number of lines using the <code>wc</code> command. <code>wc</code> stands for <em>word count</em>. It counts the number of lines, words or characters. So, we can use it to count the number of lines we're getting back from our <code>grep</code> command using the <code>-l</code> argument. And that will magically tell us how many bad sequences we have in the file.</p>
+<pre><code class="bash">$ grep NNNNNNNNNN Mov10_oe_1.subset.fq | wc -l
+</code></pre>
+
+<p>This command when used without any arguments would tell us the number of lines, words and characters in the file; the <code>-l</code> flag specifies that we only want the number of lines. Try it out without the <code>-l</code> to see the full output.</p>
+<p>Redirecting is not super intuitive, but it's really powerful for stringing together these different commands, so you can do whatever you need to do.</p>
+<p>The philosophy behind these commands is that none of them really do anything all that impressive. BUT when you start chaining them together, you can do some really powerful things really efficiently. <strong>To be able to use the shell effectively, becoming proficient with the pipe and redirection operators:  <code>|</code>, <code>&gt;</code>, <code>&gt;&gt;</code> is essential.</strong></p>
+<h2 id="practice-with-searching-and-redirection-piping">Practice with searching and redirection (piping)</h2>
+<p>Finally, let's use the new tools in our kit and a few new ones to examine our gene annotation file, <strong>chr1-hg19_genes.gtf</strong>, which we will be using later to find the genomic coordinates of all known exons on chromosome 1.</p>
+<pre><code class="bash">$ cd ~/unix_lesson/reference_data/
+</code></pre>
+
+<p>Let's explore our <code>chr1-hg19_genes.gtf</code> file a bit. What information does it contain?</p>
+<pre><code class="bash">$ less chr1-hg19_genes.gtf
+</code></pre>
+
+<pre><code>chr1    unknown exon    14362   14829   .       -       .       gene_id "WASH7P"; gene_name "WASH7P"; transcript_id "NR_024540"; tss_id "TSS7245";
+chr1    unknown exon    14970   15038   .       -       .       gene_id "WASH7P"; gene_name "WASH7P"; transcript_id "NR_024540"; tss_id "TSS7245";
+chr1    unknown exon    15796   15947   .       -       .       gene_id "WASH7P"; gene_name "WASH7P"; transcript_id "NR_024540"; tss_id "TSS7245";
+chr1    unknown exon    16607   16765   .       -       .       gene_id "WASH7P"; gene_name "WASH7P"; transcript_id "NR_024540"; tss_id "TSS7245";
+chr1    unknown exon    16858   17055   .       -       .       gene_id "WASH7P"; gene_name "WASH7P"; transcript_id "NR_024540"; tss_id "TSS7245";
+</code></pre>
+<blockquote>
+<p>The GTF file is a tab-delimited gene annotation file often used in NGS analyses. For more information on this file format, check out the <a href="http://useast.ensembl.org/info/website/upload/gff.html">Ensembl site</a>. </p>
+</blockquote>
+<p>The columns in the <strong>GTF file contain the genomic coordinates of gene features (exon, start_codon, stop_codon, CDS) and the gene_names, transcript_ids and protein_ids (p_id) associated with these features</strong>. Note that sometimes an exon can be associated with multiple different transcripts or gene isoforms. For example, </p>
+<pre><code class="bash">$ grep PLEKHN1 chr1-hg19_genes.gtf | head -n 5
+</code></pre>
+
+<p>This search returns two different transcripts of the same gene, NM_001160184 and NM_032129, that contain the same exon.</p>
+<p>Now that we know what type of information is inside of our gtf file, let's explore our commands to answer a simple question about our data: <strong>how many unique exons are present on chromosome 1 using <code>chr1-hg19_genes.gtf</code>?</strong></p>
+<p>To determine the number of unique exons on chromosome 1, we are going to perform a series of steps:</p>
+<pre><code>1. Extract only the genomic coordinates of exon features
+2. Subset the dataset to only include the feature type and genomic location information
+3. Remove duplicate exons
+4. Count the total number of exons
+</code></pre>
+<h4 id="extracting-exon-features">Extracting exon features</h4>
+<p>We only want the exons (not CDS or start_codon features), so let's use <code>grep</code> to only keep the exon lines and pipe it to head to see what we get:</p>
+<pre><code class="bash">$ grep exon chr1-hg19_genes.gtf | head
+</code></pre>
+
+<h4 id="subsetting-dataset-to-only-keep-genomic-coordinates">Subsetting dataset to only keep genomic coordinates</h4>
+<p>We will define the uniqueness of an exon by its genomic coordinates. Therefore, we only need the genomic location (chr, start, stop, and strand) information to find the total number of unique exons. The columns corresponding to this information are 1, 4, 5, and 7. </p>
+<p>'cut' is a program that will extract columns from files.  It is a very good command to know.  Let's first try out the 'cut' command on a just the exonic lines to make sure we have the command correct by using multiple piped commands and looking at the first 10 lines:</p>
+<pre><code class="bash">$ grep exon chr1-hg19_genes.gtf | cut -f1,4,5,7  | head
+</code></pre>
+
+<p><code>-f1,4,5,7</code> means to cut these fields (columns) from the dataset.  </p>
+<pre><code>chr1    14362   14829   -
+chr1    14970   15038   -
+chr1    15796   15947   -
+chr1    16607   16765   -
+chr1    16858   17055   -
+</code></pre>
+<p>The <code>cut</code> command assumes our data columns are separated by tabs (i.e. tab-delimited). The <code>chr1-hg19_genes.gtf</code> is a tab-delimited file, so the default <code>cut</code> command works for us. However, data can be separated by other types of delimiters. Another common delimiter is the comma, which separates data in comma-separated value (csv) files. If your data is not tab delimited, there is a <code>cut</code> command argument (<code>-d</code>) to specify the delimiter.</p>
+<p>Our output looks good, so let's keep going...</p>
+<h4 id="removing-duplicate-exons">Removing duplicate exons</h4>
+<p>Now, we need to remove those exons that show up multiple times for different transcripts. For this, we can use a new tool, <code>sort</code>, to remove exons that show up more than once. We can use the <code>sort</code> command with the <code>-u</code> option to return only unique lines.</p>
+<pre><code class="bash">$ grep exon chr1-hg19_genes.gtf | cut -f1,4,5,7 | sort -u | head 
+</code></pre>
+
+<p>Do you see a change in how the sorting has changed? By default the <code>sort</code> command will sort and what you can't see here is that it has removed the duplicates. How do we check this?</p>
+<h4 id="counting-the-total-number-of-exons">Counting the total number of exons</h4>
+<p>First, let's check how many lines we would have without using <code>sort -u</code> by piping the output to <code>wc -l</code>.</p>
+<pre><code class="bash">grep exon chr1-hg19_genes.gtf | cut -f1,4,5,7 | wc -l
+</code></pre>
+
+<p>Now, to count how many unique exons are on chromosome 1, we will add back the <code>sort -u</code> and pipe the output to <code>wc -l</code></p>
+<pre><code class="bash">$ grep exon chr1-hg19_genes.gtf | cut -f1,4,5,7 | sort -u | wc -l
+</code></pre>
+
+<p>What we did in one command up here, we could have done it in multiple steps by saving the output of each command to a file, but that would not be as efficient if all we needed was a number to work with. The intermediate files are not useful and they occupy precious space on the computer and add clutter to the file system. </p>
+<p><strong>Commands, options, and keystrokes covered in this lesson</strong></p>
+<pre><code class="bash">grep
+&gt; (output redirection)
+&gt;&gt; (output redirection, append)
+| (output redirection, pipe)
+wc
+cut
+sort
+</code></pre>
+
+<hr />
+<p><em>This lesson has been developed by members of the teaching team at the <a href="http://bioinformatics.sph.harvard.edu/">Harvard Chan Bioinformatics Core (HBC)</a>. These are open access materials distributed under the terms of the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license</a> (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</em></p>
+<ul>
+<li>
+<p><em>The materials used in this lesson were derived from work that is Copyright © Data Carpentry (http://datacarpentry.org/). 
+All Data Carpentry instructional material is made available under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license</a> (CC BY 4.0).</em></p>
+</li>
+<li>
+<p><em>Adapted from the lesson by Tracy Teal. Contributors: Paul Wilson, Milad Fatenejad, Sasha Wood, and Radhika Khetani for Software Carpentry (http://software-carpentry.org/)</em></p>
+</li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../01_the_filesystem/" title="Introduction to the shell" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Introduction to the shell
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../03_vim/" title="Introduction to the `vim` text editor" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Introduction to the `vim` text editor
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.a59e2a89.js"></script>
+      
+      <script>app.initialize({version:"0.17.4",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

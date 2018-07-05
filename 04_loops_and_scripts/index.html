@@ -1,0 +1,777 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+        <meta name="author" content=""">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-0.17.4, mkdocs-material-2.9.2">
+    
+    
+      
+        <title>"The Shell: Loops & Scripts"</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.ba0fd1a6.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.6079476c.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+      <link rel="stylesheet" href="../extra.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="white" data-md-color-accent="light-green">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#learning-objectives" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="Introduction to ChIP-seq" class="md-header-nav__button md-logo">
+          
+            <img src="../images/dna-sequence-1600x800.jpg" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Introduction to ChIP-seq
+              </span>
+              <span class="md-header-nav__topic">
+                Shell scripts and `for` loops
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <span class="md-nav__button md-logo">
+      
+        <img src="../images/dna-sequence-1600x800.jpg" width="48" height="48">
+      
+    </span>
+    Introduction to ChIP-seq
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Lessons
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Lessons
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../01_the_filesystem/" title="Introduction to the shell" class="md-nav__link">
+      Introduction to the shell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../02_searching_files/" title="Searching and redirection in shell" class="md-nav__link">
+      Searching and redirection in shell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../03_vim/" title="Introduction to the `vim` text editor" class="md-nav__link">
+      Introduction to the `vim` text editor
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Shell scripts and `for` loops
+      </label>
+    
+    <a href="./" title="Shell scripts and `for` loops" class="md-nav__link md-nav__link--active">
+      Shell scripts and `for` loops
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#learning-objectives" title="Learning Objectives" class="md-nav__link">
+    Learning Objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shell-scripts" title="Shell scripts" class="md-nav__link">
+    Shell scripts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bash-variables" title="Bash variables" class="md-nav__link">
+    Bash variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loops" title="Loops" class="md-nav__link">
+    Loops
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-does-this-loop-do" title="What does this loop do?" class="md-nav__link">
+    What does this loop do?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-basename-command" title="The basename command" class="md-nav__link">
+    The basename command
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automating-with-scripts" title="Automating with Scripts" class="md-nav__link">
+    Automating with Scripts
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../05_permissions_and_environment_variables/" title="Permissions and environment variable" class="md-nav__link">
+      Permissions and environment variable
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#learning-objectives" title="Learning Objectives" class="md-nav__link">
+    Learning Objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shell-scripts" title="Shell scripts" class="md-nav__link">
+    Shell scripts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bash-variables" title="Bash variables" class="md-nav__link">
+    Bash variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loops" title="Loops" class="md-nav__link">
+    Loops
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-does-this-loop-do" title="What does this loop do?" class="md-nav__link">
+    What does this loop do?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-basename-command" title="The basename command" class="md-nav__link">
+    The basename command
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automating-with-scripts" title="Automating with Scripts" class="md-nav__link">
+    Automating with Scripts
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Shell scripts and `for` loops</h1>
+                
+                <p>Approximate time: 60 minutes</p>
+<h2 id="learning-objectives">Learning Objectives</h2>
+<ul>
+<li>Capture previous commands into a script to re-run in one single command</li>
+<li>Understanding variables and storing information</li>
+<li>Learn how to use variables to operate on multiple files</li>
+</ul>
+<p>Now that you've been introduced to a number of commands to interrogate your data, wouldn't it be great if you could do this for each set of data that comes in, without having to manually re-type the commands?</p>
+<p>Welcome to the beauty and purpose of shell scripts.</p>
+<h2 id="shell-scripts">Shell scripts</h2>
+<p>Shell scripts are <strong>text files that contain commands we want to run</strong>. As with any file, you can give a shell script any name and usually have the extension <code>.sh</code>. For historical reasons, a bunch of commands saved in a file is usually called a shell script, but make no mistake, this is actually a small program. </p>
+<p>We are finally ready to see what makes the shell such a powerful programming environment. We are going to take the commands we repeat frequently and save them into a file so that we can <strong>re-run all those operations</strong> again later by typing <strong>one single command</strong>. Let's write a shell script that will do two things:</p>
+<ol>
+<li>Tell us our current working directory</li>
+<li>List the contents of the directory </li>
+</ol>
+<p>First open a new file using <code>vim</code>:</p>
+<pre><code class="bash">$ vim listing.sh
+</code></pre>
+
+<p>Then type in the following lines in the <code>listing.sh</code> file:</p>
+<pre><code class="bash">echo &quot;Your current working directory is:&quot;
+pwd
+echo &quot;These are the contents of this directory:&quot;
+ls -l 
+</code></pre>
+
+<p>Exit <code>vim</code> and save the file. Now let's run the new script we have created. To run a shell script you usually use the <code>bash</code> or <code>sh</code> command.</p>
+<pre><code class="bash">$ sh listing.sh
+</code></pre>
+
+<blockquote>
+<p>Did it work like you expected?</p>
+<p>Were the <code>echo</code> commands helpful in letting you know what came next?</p>
+</blockquote>
+<p>This is a very simple shell script. In this session and in upcoming sessions, we will be learning how to write more complex ones, and use the power of scripts to make our lives much easier.</p>
+<h2 id="bash-variables">Bash variables</h2>
+<p>A <em>variable</em> is a common concept shared by many programming languages. Variables are essentially a symbolic/temporary name for, or a reference to, some information. Variables are analogous to "buckets", where information can be stored, maintained and modified without too much hassle. </p>
+<p>Extending the bucket analogy: the bucket has a name associated with it, i.e. the name of the variable, and when referring to the information in the bucket, we use the name of the bucket, and do not directly refer to the actual data stored in it.</p>
+<p>Let's start with a simple variable that has a single number stored in it:</p>
+<pre><code class="bash">$ num=25
+</code></pre>
+
+<p><em>How do we know that we actually created the bash variable?</em> We can use the <code>echo</code> command to print to terminal:</p>
+<pre><code class="bash">$ echo num
+</code></pre>
+
+<p>What do you see in the terminal? The <code>echo</code> utility takes what arguments you provide and prints to terminal. In this case it interpreted <code>num</code> as a a character string and simply printed it back to us. This is because <strong>when trying to retrieve the value stored in the variable, we explicitly use a <code>$</code> in front of it</strong>:</p>
+<pre><code class="bash">$ echo $num
+</code></pre>
+
+<p>Now you should see the number 25 returned to you. Did you notice that when we created the variable we just typed in the variable name? This is standard shell notation (syntax) for defining and using variables. When defining the variable (i.e. setting the value) you can just type it as is, but when <strong>retrieving the value of a variable don't forget the <code>$</code>!</strong> </p>
+<p>Variables can also store a string of character values. In the example below, we define a variable or a 'bucket' called <code>file</code>. We will put a filename <code>Mov10_oe_1.subset.fq</code> as the value inside the bucket.</p>
+<pre><code class="bash">$ file=Mov10_oe_1.subset.fq
+</code></pre>
+
+<p>Once you press return, you should be back at the command prompt. Let's check what's stored inside <code>file</code>, but first move into the <code>raw_fastq</code> directory::</p>
+<pre><code class="bash">$ cd ~/unix_lesson/raw_fastq
+$ echo $file
+</code></pre>
+
+<p>Let's try another command using the variable that we have created. We can also count the number of lines in <code>Mov10_oe_1.subset.fq</code> by referencing the <code>file</code> variable:</p>
+<pre><code class="bash">$ wc -l $file
+</code></pre>
+
+<blockquote>
+<p><em>NOTE:</em> The variables we create in a session are system-wide, and independent of where you are in the filesystem. This is why we can reference it from any directory. However, it is only available for your current session. If you exit the cluster and login again at a later time, the variables you have created will no longer exist.</p>
+</blockquote>
+<hr />
+<p><strong>Exercise</strong></p>
+<ul>
+<li>Reuse the <code>$file</code> variable to store a different file name, and rerun the commands we ran above (<code>wc -l</code>, <code>echo</code>)</li>
+</ul>
+<hr />
+<p>Ok, so we know variables are like buckets, and so far we have seen that bucket filled with a single value. <strong>Variables can store more than just a single value.</strong> They can store multiple values and in this way can be useful to carry out many things at once. Let's create a new variable called <code>filenames</code> and this time we will store <em>all of the filenames</em> in the <code>raw_fastq</code> directory as values. </p>
+<p>To list all the filenames in the directory that have a <code>.fq</code> extension, we know the command is:</p>
+<pre><code class="bash">$ ls *.fq
+</code></pre>
+
+<p>Now we want to <em>assign</em> the output of <code>ls</code> to the variable:</p>
+<pre><code class="bash">$ filenames=`ls *.fq`
+</code></pre>
+
+<blockquote>
+<p>Note the syntax for assigning output of commands to variables, i.e. the backticks around the <code>ls</code> command.</p>
+</blockquote>
+<p>Check and see what's stored inside our newly created variable using <code>echo</code>:</p>
+<pre><code class="bash">$ echo $filenames
+</code></pre>
+
+<p>Let's try the <code>wc -l</code> command again, but this time using our new variable <code>filenames</code> as the argument:</p>
+<pre><code class="bash">$ wc -l $filenames
+</code></pre>
+
+<p>What just happened? Because our variable contains multiple values, the shell runs the command on each value stored in <code>filenames</code> and prints the results to screen. </p>
+<hr />
+<p><strong>Exercise</strong></p>
+<ul>
+<li>Use some of the other commands we learned in previous lessons (i.e. <code>head</code>, <code>tail</code>) on the <code>filenames</code> variable. </li>
+</ul>
+<hr />
+<h2 id="loops">Loops</h2>
+<p>Another powerful concept in the Unix shell and useful when writing scripts is the concept of "Loops". We have just shown you that you can run a single command on multiple files by creating a variable whose values are the filenames that you wish to work on. But what if you want to <strong>run a sequence of multiple commands, on multiple files</strong>? This is where loop come in handy!</p>
+<p>Looping is a concept shared by several programming languages, and its implementation in bash is very similar to other languages. </p>
+<p>The structure or the syntax of (<em>for</em>) loops in bash is as follows:</p>
+<pre><code class="bash">for (variable_name) in (list)
+do
+(command1 $variable_name)
+.
+.
+done
+</code></pre>
+
+<p>where the <strong><em>variable_name</em></strong> defines (or initializes) a variable that takes the value of every member of the specified <strong><em>list</em></strong> one at a time. At each iteration, the loop retrieves the value stored in the variable (which is a member of the input list) and runs through the commands indicated between the <code>do</code> and <code>done</code> one at a time. <em>This syntax/structure is virtually set in stone.</em> </p>
+<h4 id="what-does-this-loop-do">What does this loop do?</h4>
+<pre><code class="bash">for x in *.fq
+ do
+   echo $x
+   wc -l $x
+ done
+</code></pre>
+
+<p>Most simply, it writes to the terminal (<code>echo</code>) the name of the file and the number of lines (<code>wc -l</code>) for each files that end in <code>.fq</code> in the current directory. The output is almost identical to what we had before.</p>
+<p>In this case the list of files is specified using the asterisk wildcard: <code>*.fq</code>, i.e. all files that end in <code>.fq</code>. </p>
+<blockquote>
+<p><strong>What else could we have used in place of the <code>ls *.fq</code>?</strong></p>
+</blockquote>
+<p>Then, we execute 2 commands between the <code>do</code> and <code>done</code>. With a loop, we execute these commands for each file at a time. Once the commands are executed for one file, the loop then executes the same commands on the next file in the list. </p>
+<p>Essentially, <strong>the number of items in the list (variable name) == number of times the code will loop through</strong>, in our case that is 2 times since we have 2 files in <code>~/unix_lesson/raw_fastq</code> that end in <code>.fq</code>, and these filenames are stored in the <code>filename</code> variable.</p>
+<p>It doesn't matter what variable name we use, but it is advisable to make it something more intuitive. In the long run, it's best to use a name that will help point out a variable's functionality, so your future self will understand what you are thinking now.</p>
+<h3 id="the-basename-command">The <code>basename</code> command</h3>
+<p>Before we get started on creating more complex scripts, we want to introduce you to a command that will be useful for future scripting. The <code>basename</code> command is used for extracting the base name of a file, which is accomplished using <strong>string splitting to strip the directory and any suffix from filenames</strong>. Let's try an example, by first moving back to your home directory:</p>
+<pre><code class="bash">$ cd
+</code></pre>
+
+<p>Then we will run the <code>basename</code> command on one of the FASTQ files. Be sure to specify the path to the file:</p>
+<pre><code class="bash">$ basename ~/unix_lesson/raw_fastq/Mov10_oe_1.subset.fq
+</code></pre>
+
+<p>What is returned to you? The filename was split into the path <code>unix_lesson/raw_fastq/</code> and the filename <code>Mov10_oe_1.subset.fq</code>. The command returns only the filename. Now, suppose we wanted to also trim off the file extension (i.e. remove <code>.fq</code> leaving only the file <em>base name</em>). We can do this by adding a parameter to the command to specify what string of characters we want trimmed.</p>
+<pre><code class="bash">$ basename ~/unix_lesson/raw_fastq/Mov10_oe_1.subset.fq .fq
+</code></pre>
+
+<p>You should now see that only <code>Mov10_oe_1.subset</code> is returned. </p>
+<hr />
+<p><strong>Exercise</strong></p>
+<ul>
+<li>How would you modify the above <code>basename</code> command to only return <code>Mov10_oe_1</code>?</li>
+</ul>
+<hr />
+<h2 id="automating-with-scripts">Automating with Scripts</h2>
+<p>Now that you've learned how to use loops and variables, let's put this processing power to work. Imagine, if you will, a script that will run a series of commands that would do the following for us each time we get a new data set:</p>
+<ul>
+<li>Use for loop to iterate over each FASTQ file</li>
+<li>Generate a prefix to use for naming our output files</li>
+<li>Dump out bad reads into a new file</li>
+<li>Get the count of the number of bad reads and generate a summary for each file</li>
+</ul>
+<p>You might not realize it, but this is something that you now know how to do. Let's get started...</p>
+<p>Rather than doing all of this in the terminal we are going to create a script file with all relevant commands. Move back in to <code>unix_lesson</code> and use <code>vim</code> to create our new script file:</p>
+<pre><code class="bash">$ cd ~/unix_lesson
+
+$ vim generate_bad_reads_summary.sh
+</code></pre>
+
+<p>We always want to start our scripts with a shebang line: </p>
+<pre><code class="bash">#!/bin/bash
+</code></pre>
+
+<p>This line is the absolute path to the Bash interpreter. The shebang line ensures that the bash shell interprets the script even if it is executed using a different shell.</p>
+<p>After the shebang line, we enter the commands we want to execute. First we want to move into our <code>raw_fastq</code> directory:</p>
+<pre><code class="bash"># enter directory with raw FASTQs
+cd ~/unix_lesson/raw_fastq
+</code></pre>
+
+<p>And now we loop over all the FASTQs:</p>
+<pre><code class="bash"># enter directory with raw FASTQs
+for filename in *.fq
+</code></pre>
+
+<p>For each file that we process we can use <code>basename</code> to create a variable that will uniquely identify our output file based on where it originated from:</p>
+<pre><code class="bash">do
+  # create a prefix for all output files
+  base=`basename $filename .subset.fq`
+</code></pre>
+
+<p>and then we execute the commands for each loop:</p>
+<pre><code class="bash">  # tell us what file we're working on
+  echo $filename
+
+  # grab all the bad read records into new file
+  grep -B1 -A2 NNNNNNNNNN $filename &gt; $base-badreads.fastq
+</code></pre>
+
+<p>We'll also count the number of these reads and put that in a new file, using the count flag of <code>grep</code>:</p>
+<pre><code class="bash">  # grab the number of bad reads and write it to a summary file
+  grep -cH NNNNNNNNNN $filename &gt; $base-badreads.count.summary
+done
+</code></pre>
+
+<p>If you've noticed, we used a new <code>grep</code> flag <code>-H</code> above; this flag will report the filename along with the match string. This is useful for when we generate the summary file.</p>
+<p>Save and exit <code>vim</code>, and voila! You now have a script you can use to assess the quality of all your new datasets. Your finished script, complete with comments, should look like the following:</p>
+<pre><code class="bash">#!/bin/bash 
+
+# enter directory with raw FASTQs
+cd ~/unix_lesson/raw_fastq
+
+# count bad reads for each FASTQ file in our directory
+for filename in *.fq 
+do 
+
+  # create a prefix for all output files
+  base=`basename $filename .subset.fq`
+
+  # tell us what file we're working on  
+  echo $filename
+
+  # grab all the bad read records
+  grep -B1 -A2 NNNNNNNNNN $filename &gt; $base-badreads.fastq
+
+  # grab the number of bad reads and write it to a summary file
+  grep -cH NNNNNNNNNN $filename &gt; $base-badreads.count.summary
+done
+
+</code></pre>
+
+<p>To run this script, we simply enter the following command:</p>
+<pre><code class="bash">$ sh generate_bad_reads_summary.sh
+</code></pre>
+
+<p>How do we know if the script worked? Take a look inside the <code>raw_fastq</code> directory, we should see that for every one of the original FASTQ files we have two associated bad read files.</p>
+<pre><code class="bash">$ ls -l ~/unix_lesson/raw_fastq 
+</code></pre>
+
+<p>To keep our data organized, let's move all of the bad read files out of the <code>raw_fastq</code> directory into a new directory called <code>other</code>, and the script to a new directory called <code>scripts</code>.</p>
+<pre><code class="bash">$ mv raw_fastq/*bad* other/
+
+$ mkdir scripts
+$ mv *.sh scripts/
+</code></pre>
+
+<hr />
+<p><em>This lesson has been developed by members of the teaching team at the <a href="http://bioinformatics.sph.harvard.edu/">Harvard Chan Bioinformatics Core (HBC)</a>. These are open access materials distributed under the terms of the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license</a> (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</em></p>
+<ul>
+<li><em>The materials used in this lesson were derived from work that is Copyright © Data Carpentry (http://datacarpentry.org/). 
+All Data Carpentry instructional material is made available under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license</a> (CC BY 4.0).</em></li>
+<li><em>Adapted from the lesson by Tracy Teal. Original contributors: Paul Wilson, Milad Fatenejad, Sasha Wood and Radhika Khetani for Software Carpentry (http://software-carpentry.org/)</em></li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../03_vim/" title="Introduction to the `vim` text editor" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Introduction to the `vim` text editor
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../05_permissions_and_environment_variables/" title="Permissions and environment variable" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Permissions and environment variable
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.a59e2a89.js"></script>
+      
+      <script>app.initialize({version:"0.17.4",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
